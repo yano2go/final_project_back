@@ -1,6 +1,6 @@
 class GifsController < ApplicationController
   before_action :set_gif, only: [:show, :update, :destroy]
-
+  before_action :authenticate_user!, only: [:create, :update, :destroy]
   # GET /gifs
   def index
    @category= Gif.where({category: params[:category]})
@@ -15,6 +15,7 @@ class GifsController < ApplicationController
 
   # POST /gifs
   def create
+    
     @gif = Gif.new(gif_params)
 
     if @gif.save
@@ -32,9 +33,12 @@ class GifsController < ApplicationController
       render json: @gif.errors, status: :unprocessable_entity
     end
   end
+  
 
   # DELETE /gifs/1
+  
   def destroy
+    
     @gif.destroy
   end
 
